@@ -2,6 +2,7 @@ package com.example.monitoring.service;
 
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
+import java.io.File;
 
 public class ComputerResourceMonitor {
     public double getComputerCpuUsage(){
@@ -27,8 +28,28 @@ public class ComputerResourceMonitor {
     }
     public double getComputerMemoryUsage(){
         //사용중인 메모리
+        //GB 단위로 return
         return getComputerTotalMemory()-getComputerFreeMemory();
         //getFreePhysicalMemorySize() : Returns the amount of free physical memory in bytes.
+    }
+    public double getComputerFreeDisk(){
+        //디스크 남은 용량
+        //GB 단위로 return
+        File file = new File("/");
+        double usableSpace=file.getUsableSpace();
+        return usableSpace/Math.pow(1024,3); //Math.pow는 1024 세제곱 한 것임.
+    }
+    public double getComputerTotalDisk(){
+        //전체 디스크 용량
+        //GB 단위로 return
+        File file = new File("/");
+        double usableSpace=file.getTotalSpace();
+        return usableSpace/Math.pow(1024,3);//Math.pow는 1024 세제곱 한 것임.
+    }
+    public double getComputerDiskUsage(){
+        //디스크 사용중 용량
+        //GB 단위로 return
+        return getComputerTotalDisk()-getComputerFreeDisk();
     }
 
 }
