@@ -53,17 +53,15 @@ public class ComputerResourceMonitor {
         //GB 단위로 return
         return getComputerTotalDisk()-getComputerFreeDisk();
     }
-    public String getComputerIPAddress(){
+    public String getComputerIPAddress() {
         //local IP 주소
-        try{
+        try {
             InetAddress local = InetAddress.getLocalHost();//LocalHost 정보를 담은 InetAddress 객체 생성
             return local.getHostAddress();//IP주소를 return
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";
-
     }
 
 }

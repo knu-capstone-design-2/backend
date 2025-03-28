@@ -23,7 +23,7 @@ public class ComputerResourceMonitorTest {
             double diskUsage=monitor.getComputerDiskUsage();
             double totalDisk=monitor.getComputerTotalDisk();
             double freeDisk=monitor.getComputerFreeDisk();
-            String ipAdress=monitor.getComputerIPAddress();
+            String IPAddress=monitor.getComputerIPAddress();
 
             System.out.println("==============================");
             System.out.println("CPU Usage : " + String.format("%.2f", cpuUsage)+"%");
@@ -33,7 +33,8 @@ public class ComputerResourceMonitorTest {
             System.out.println("디스크 사용 용량 : " + diskUsage + " GB");
             System.out.println("전체 디스크 용량 : " + totalDisk+ " GB");
             System.out.println("디스크 남은 용량 : " + freeDisk+ " GB");
-            System.out.println("로컬 IP 주소 : "+ ipAdress);
+            System.out.println("localhost IP 주소 : "+IPAddress);
+
 
 
 
