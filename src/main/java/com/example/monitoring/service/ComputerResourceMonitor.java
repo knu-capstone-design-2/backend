@@ -3,6 +3,8 @@ package com.example.monitoring.service;
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class ComputerResourceMonitor {
     public double getComputerCpuUsage(){
@@ -50,6 +52,16 @@ public class ComputerResourceMonitor {
         //디스크 사용중 용량
         //GB 단위로 return
         return getComputerTotalDisk()-getComputerFreeDisk();
+    }
+    public String getComputerIPAddress(){
+        //local host IP Address
+        try {
+            InetAddress local = InetAddress.getLocalHost();//localhost 정보를 담은 InetAddress 객체 생성
+            return local.getHostAddress();//IP 반환
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
