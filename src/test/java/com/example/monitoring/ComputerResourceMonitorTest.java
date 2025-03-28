@@ -20,12 +20,19 @@ public class ComputerResourceMonitorTest {
             double freeMemory = monitor.getComputerFreeMemory();
             double totalMemory = monitor.getComputerTotalMemory();
             double memoryUsage = monitor.getComputerMemoryUsage();
+            double diskUsage=monitor.getComputerDiskUsage();
+            double totalDisk=monitor.getComputerTotalDisk();
+            double freeDisk=monitor.getComputerFreeDisk();
 
             System.out.println("==============================");
             System.out.println("CPU Usage : " + String.format("%.2f", cpuUsage)+"%");
             System.out.println("Memory Free Space : " + String.format("%.2f", freeMemory)+"GB");
             System.out.println("Memory Total Space : " + String.format("%.2f", totalMemory)+"GB");
             System.out.println("Memory Usage Space : " + String.format("%.2f", memoryUsage)+"GB");
+            System.out.println("디스크 사용 용량 : " + diskUsage + " GB");
+            System.out.println("전체 디스크 용량 : " + totalDisk+ " GB");
+            System.out.println("디스크 남은 용량 : " + freeDisk+ " GB");
+
 
 
             //System.out.println("CPU Usage: " + cpuUsage + "%");
