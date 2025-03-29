@@ -15,7 +15,10 @@ public class ResourceMonitorTest {
             Map<String, String> resources = monitor.getContainerResources(containerId);
             System.out.println("Container ID: " + containerId);
             System.out.println("CPU Usage: " + resources.get("CPU"));
-            System.out.println("Memory Usage: " + resources.get("Memory"));
+            System.out.println("Memory Usage / Limit: " + resources.get("Memory Usage / Limit"));
+            System.out.println("Memory Usage Percentage: " + resources.get("Memory Usage Percentage"));
+            System.out.println("Net I/O: " + resources.get("Net I/O"));
+            System.out.println("Block I/O: " + resources.get("Block I/O"));
             System.out.println("--------------------------");
         }
     }
