@@ -1,5 +1,52 @@
 package com.example.monitoring;
 import com.example.monitoring.service.ResourceMonitor;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class ResourceMonitorTest {
+    public static void main(String[] args) {
+        ResourceMonitor monitor = new ResourceMonitor();
+        List<String> containerIds = getRunningContainers();
+
+        for (String containerId : containerIds) {
+            Map<String, String> resources = monitor.getContainerResources(containerId);
+            System.out.println("Container ID: " + containerId);
+            System.out.println("CPU Usage: " + resources.get("CPU"));
+            System.out.println("Memory Usage: " + resources.get("Memory"));
+            System.out.println("--------------------------");
+        }
+    }
+
+
+    public static List<String> getRunningContainers() {
+        // 실행 중인 컨테이너 ID 리스트 반환
+        List<String> containerIds = new ArrayList<>();//컨테이너 id 저장할 리스트
+        try {
+            //docker 명령어 실행을 위한 프로세스 생성, 실행 중인 컨테이너 ID
+            ProcessBuilder processBuilder = new ProcessBuilder("docker", "ps", "--format", "{{.ID}}");
+            Process process = processBuilder.start();//프로세스 실행
+            //프로세스 출력 읽기 위한 BufferdReader 생성
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            String line;
+            //실행 결과 한 줄씩 읽어서 리스트에 저장
+            while ((line = reader.readLine()) != null) {
+                containerIds.add(line);
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.err.println("실행 중인 컨테이너 들고 오는거 실패 : " + e.getMessage());
+        }
+        return containerIds;//실행 중인 컨테이너 ID 목록 return
+    }
+}
+
+/**
+package com.example.monitoring;
+import com.example.monitoring.service.ResourceMonitor;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,3 +75,4 @@ class ResourceMonitorTest {
         System.out.println("메모리 사용량: " + resources.get("Memory"));
     }
 }
+*/
