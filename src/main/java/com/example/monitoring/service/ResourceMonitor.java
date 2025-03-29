@@ -59,5 +59,4 @@ public class ResourceMonitor {
         return -1.0; // CPU 사용량을 가져오지 못했을 경우 -1.0을 반환해서 오류 상태 나타냄.
     }
 
-
 }
