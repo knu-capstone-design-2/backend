@@ -20,7 +20,8 @@ public class ResourceMonitor {
             //--no-stream : 실시간 스트리밍을 하지 않고 한 번만 데이터를 가져오도록 설정
             //cpu 사용량과 메모리 사용량을 출력
             //ProcessBuilder를 사용하여 명령어를 실행하는 프로세스를 생성하고 실행
-            ProcessBuilder processBuilder = new ProcessBuilder("docker", "stats", containerId, "--no-stream", "--format", "{{.CPUPerc}} {{.MemUsage}}");
+            //docker stats --no-stream : 반복 출력하지 않고 현 시점의 결과 1회만 출력!!
+            ProcessBuilder processBuilder = new ProcessBuilder("docker", "stats", containerId, "--no-stream", "--format", "{{.CPUPerc}} {{.MemUsage}} {{.MemPerc}} {{.NetIO}} {{.BlockIO}}");
             Process process = processBuilder.start();
 
             //BufferReader : 실행된 프로세스의 출력을 읽음
@@ -30,9 +31,20 @@ public class ResourceMonitor {
 
             if (line != null && !line.isEmpty()) {//line이 null이 아니고 비어있지 않다면, " "을 기준으로 분리함
                 String[] usageData = line.split(" ");
-                if (usageData.length >= 2) {
-                    resourceUsage.put("CPU", usageData[0]); // 첫 번째 값은 CPU 사용량이니 "CPU"키로 저장
-                    resourceUsage.put("Memory", usageData[1] + " " + usageData[2]); // 두 번째와 세 번째 값이 메모리 사용량이니까 "Memory"키로 저장
+                //String[] usageData = line.trim().split("\\s+");
+                if (usageData.length >= 5) {
+                    resourceUsage.put("CPU", usageData[0]); // 0 번째 값은 CPU 사용량이니 "CPU"키로 저장
+                    /**
+                    resourceUsage.put("Memory Usage / Limit", usageData[1]); // 두 번째와 세 번째 값이 메모리 사용량이니까 "Memory"키로 저장
+                    resourceUsage.put("Memory Usage Percentage", usageData[2] );
+                    resourceUsage.put("Net I/O", usageData[3] );
+                    resourceUsage.put("Block I/O",usageData[4]);
+                    */
+                    resourceUsage.put("Memory Usage / Limit", usageData[1] + " / " + usageData[3]); // 첫 번째와 세 번째 값이 메모리 사용량이니까 "Memory"키로 저장
+                    resourceUsage.put("Memory Usage Percentage", usageData[4] );//4번째에 메모리 사용률? 있음
+                    resourceUsage.put("Net I/O", usageData[5] + " / " + usageData[7]);//NET I/O
+                    resourceUsage.put("Block I/O",usageData[8] + " / " + usageData[10]);//BLOCK I/O
+
                 }
             }
         } catch (Exception e) {//예외 발생 시 오류 메시지 출력
@@ -58,5 +70,7 @@ public class ResourceMonitor {
         }
         return -1.0; // CPU 사용량을 가져오지 못했을 경우 -1.0을 반환해서 오류 상태 나타냄.
     }
+
+
 
 }
