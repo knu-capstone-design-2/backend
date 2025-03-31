@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class ComputerResourceMonitorTest {
     private ComputerResourceMonitor monitor;
 
@@ -51,7 +52,7 @@ public class ComputerResourceMonitorTest {
             assertTrue(totalMemory > 0, "Total memory should be greater than 0");
             assertTrue(memoryUsage >= 0, "Memory usage should not be negative");
 
-            //Thread.sleep(3000);
+            Thread.sleep(3000);
         }
     }
 }

@@ -9,6 +9,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import oshi.SystemInfo;
+import oshi.hardware.NetworkIF;
+import java.util.List;
 
 
 public class ComputerResourceMonitor {
@@ -69,6 +72,28 @@ public class ComputerResourceMonitor {
         return "";
     }
     public String getNetworkUsage(){
+        StringBuilder networkUsage = new StringBuilder();//결과 저장할 stringbuilder 생성
+        SystemInfo si=new SystemInfo();//시스템 정보 객체 생성(oshi 라이브러리 안에 있음)
+        List<NetworkIF> networkIFS=si.getHardware().getNetworkIFs();//시스템의 모든 네트워크 목록 가져오기
+
+        //각 네트워크 정보를 반복해서 가져옴
+        for(NetworkIF net :networkIFS){
+            //https://github.com/oshi/oshi/blob/master/oshi-core/src/main/java/oshi/hardware/NetworkIF.java
+            //String getName() : interface name
+            //String getMacaddr() : Media Access Control address
+            //long getSpeed() : The speed of the network interface in bits per second
+            //long getBytesRecv() : The bytes Received
+            //long getBytesSent() : The bytes sent
+            //long getInErrors() : Input Errors
+            //long getOutErrors() : Output Errors
+            networkUsage.append("name : "+net.getName()+"\n").append("Mac address : "+net.getMacaddr()+"\n").append("Speed : "+net.getSpeed()+"bits/s\n").append("Received Bytes : "+net.getBytesRecv()+"\n").append("Send Bytes : "+net.getBytesSent()+"\n").append("Get in error : "+net.getInErrors()+" / ").append("Get out error : "+net.getOutErrors()+"\n");
+            networkUsage.append("\n");
+
+        }
+        return networkUsage.toString();//최종 네트워크 정보 문자열로 반환
+    }
+    /** 이 방법은 속도가 너무 느림
+    public String getNetworkUsage(){
         StringBuilder networkUsage = new StringBuilder();
         try{
             Process process=Runtime.getRuntime().exec("netstat -i");
@@ -86,7 +111,7 @@ public class ComputerResourceMonitor {
         }
         return networkUsage.toString();
 
-    }
+    }*/
 
 }
 /**package com.example.monitoring.service;
