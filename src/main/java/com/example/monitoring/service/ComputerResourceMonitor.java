@@ -5,6 +5,11 @@ import com.sun.management.OperatingSystemMXBean;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 
 public class ComputerResourceMonitor {
     public double getComputerCpuUsage(){
@@ -62,6 +67,25 @@ public class ComputerResourceMonitor {
             e.printStackTrace();
         }
         return "";
+    }
+    public String getNetworkUsage(){
+        StringBuilder networkUsage = new StringBuilder();
+        try{
+            Process process=Runtime.getRuntime().exec("netstat -i");
+            InputStream inputStream = process.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            //BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line= reader.readLine())!=null){
+                networkUsage.append(line).append("\n");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return networkUsage.toString();
+
     }
 
 }

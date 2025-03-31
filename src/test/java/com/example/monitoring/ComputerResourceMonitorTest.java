@@ -24,6 +24,7 @@ public class ComputerResourceMonitorTest {
             double totalDisk=monitor.getComputerTotalDisk();
             double freeDisk=monitor.getComputerFreeDisk();
             String IPAddress=monitor.getComputerIPAddress();
+            String networkUsage=monitor.getNetworkUsage();
 
             System.out.println("==============================");
             System.out.println("CPU Usage : " + String.format("%.2f", cpuUsage)+"%");
@@ -34,6 +35,7 @@ public class ComputerResourceMonitorTest {
             System.out.println("전체 디스크 용량 : " + totalDisk+ " GB");
             System.out.println("디스크 남은 용량 : " + freeDisk+ " GB");
             System.out.println("localhost IP 주소 : "+IPAddress);
+            System.out.println(networkUsage);
 
 
 
@@ -49,7 +51,7 @@ public class ComputerResourceMonitorTest {
             assertTrue(totalMemory > 0, "Total memory should be greater than 0");
             assertTrue(memoryUsage >= 0, "Memory usage should not be negative");
 
-            Thread.sleep(3000);
+            //Thread.sleep(3000);
         }
     }
 }
